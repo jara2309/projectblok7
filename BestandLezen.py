@@ -1,36 +1,30 @@
-import re
-
-
-def bestandlezen(bestand):
-    """ Deze functie openent een bestand en returnd de header en
-        sequentie
-
-    :param: bestand, ingevoerde bestand vanuit de bioloog
-    :return: header - string - en sequentie - string -
-
+def openfasta(path):
+    """ Opent file, voegt headers toe aan headerarray
+    en voegt sequenties toe aan sequentie array
+    :param path: Bestandsnaam / bestandslocatie
+    :return:seqs: Array met sequenties
+            headers: Array met headers
     """
-    header = []
-    sequentie = []
     seq = ""
+    seqs = []
+    headers = []
+    file = open(path)
+    x=0
+    for line in file:
+        if (">" in line): #Controleer of regel header is
+            if x>0:
+                seqs.append(seq) #Sequentie toevoegen aan array seqs
+            headers.append(line)  # Headers toevoegen aan array headers
+            seq = "" #Sequentie leegmaken voor nieuwe seq
+            x+=1
+        else:
+            seq += line.replace("\n", "") #Enters weghalen en Seqbuilder
+    if seq != "":
+        seqs.append(seq) #Voeg laatse sequentie toe
+    file.close()
 
-    with open(bestand) as bestand:
-
-        for line in bestand:
-            line = line.replace("\n", "")
-            if ">" in line:
-                header.append(line)
-            elif not (re.search(r"[^ATGCN]]", line)):
-                if not line == "":
-                    seq += line
-                    sequentie.append(seq)
-
-        print(sequentie)
-
-
+    return seqs, headers
 
 
 if __name__ == '__main__':
-    bestand = "SD.fa"
-    bestandlezen(bestand)
-
-
+    s, h = openfasta("SD.fa")
