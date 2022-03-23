@@ -20,7 +20,7 @@ def openfasta(path):
         else:
             seq += line.replace("\n", "") #Enters weghalen en Seqbuilder
     if seq != "":
-        seqs.append(seq) #Voeg laatse sequentie toe
+        seqs.append(seq) #Voeg laatse sequentie toe l
     file.close()
 
     return seqs, headers
