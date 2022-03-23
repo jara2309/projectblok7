@@ -23,6 +23,12 @@ def blast(new_orf_list):
 
 
 def writefile(result, filename):
+    """ Maakt een bestand aan en schrijft meegegeven
+    data naar het bestand
+    :param result: Data
+    :param filename: Bestandsnaam die niuew bestand krijgt
+    :return:
+    """
     print("Generating file...")
     with open(filename, 'w') as file:
         file.write(result.read())
