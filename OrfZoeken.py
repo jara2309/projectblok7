@@ -73,7 +73,7 @@ while count < 6:
             lijst.append(orfsequentie[i:i+3])
 
 
-        #converteert de sequentie naar een eiwitsequentie.
+        # Converteert de sequentie naar een eiwitsequentie.
         eiwitten = ""
         for i in range(len(lijst)):
             if len(lijst[i]) == 3:
