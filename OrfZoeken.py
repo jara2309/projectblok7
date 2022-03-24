@@ -50,7 +50,7 @@ while count < 6:
         # De ifs om de string in 6 verschillende ORFS te zetten.
         # Hieronder staat bij welke count welk RF erbij hoort.
         # 0:normal, 1:normal zonder de 1ste, 2:normal zonder de 1ste 2,
-        # 3:reverse, 4:reverste zonder de 1ste, 5:reverse zonder 1ste 2
+        # 3:reverse, 4:reverste zonder de 1ste, 5:reverse zonder 1ste 2.
         if count == 0:
             orfsequentie = sequentie
         elif count == 1:
