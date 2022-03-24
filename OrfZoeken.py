@@ -85,7 +85,7 @@ while count < 6:
         # begin en eindpunt van de orf.
         orfindex1 = []
         orfindex2 = []
-        orfdict = []
+        orfdict = {}
         minimum_length = 12
         for i in range(len(eiwitten)):
             if eiwitten[i] == "*":
@@ -95,7 +95,9 @@ while count < 6:
                     orfindex2.append(i)
                     length = orfindex2[0] - orfindex1[0]
                     if length > minimum_length:
-                        orfdict.append(eiwitten[orfindex1[0]:orfindex2[0]])
+                        orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = length
+                        #orfdict.append(eiwitten[orfindex1[
+                        # 0]:orfindex2[0]])
                         orfindex1 = []
                         orfindex1 = orfindex2
                         orfindex2 = []
