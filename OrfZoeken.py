@@ -1,3 +1,6 @@
+#Ricardo van der Lande
+
+
 sequentie = \
     "tcgattcctgggaccggcaattaatttttttaattgccttgtattcaatagaaccgttcacaaataaacacatttccactattatgatgtcagtgaaagtgaatcttctatagcattaagctatcaatgtagaatagttgtatattgtatcctagttcttaatgttgacgatcccaccgatttttcacaagataaaacagggtcgtgtaccattctcaagaatgtaatgttcatcaaactttagagctacgatatattttattatgttagttgaatcataaagaatcacagtaattcaattataggtaatttaagttaattggttatgactgttgaatatgtaagtataaataatgagtt"
 
@@ -72,13 +75,11 @@ while count < 6:
         for i in range(0, len(orfsequentie), 3):
             lijst.append(orfsequentie[i:i+3])
 
-
         # Converteert de sequentie naar een eiwitsequentie.
         eiwitten = ""
         for i in range(len(lijst)):
             if len(lijst[i]) == 3:
                 eiwitten += code[lijst[i]]
-
 
         # gaat door de eiwitten lijst heen en houdt de indexen van de
         # stopcodons bij die worden dan in de orflist gezet als
@@ -86,27 +87,23 @@ while count < 6:
         orfindex1 = []
         orfindex2 = []
         orfdict = {}
-        minimum_length = 12
+        minimum_length = 70
         for i in range(len(eiwitten)):
             if eiwitten[i] == "*":
-                if orfindex1 == []:
+                if not orfindex1:
                     orfindex1.append(i)
                 else:
                     orfindex2.append(i)
                     length = orfindex2[0] - orfindex1[0]
                     if length > minimum_length:
-                        orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = length
-                        #orfdict.append(eiwitten[orfindex1[
-                        # 0]:orfindex2[0]])
-                        orfindex1 = []
+                        orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] =\
+                            "AAlength", length, "NTlength", length * 3
+                        orfindex1.clear()
                         orfindex1 = orfindex2
-                        orfindex2 = []
+                        orfindex2.clear()
                     else:
-                        orfindex2 = []
-
-        #print(lijst, eiwitten)
+                        orfindex2.clear()
         print(orfdict)
-        #print(orfindex1)
-        #print(orfindex2)
     except KeyError:
-        print("ewaa bro wat moet ik hier mee")
+        print("There is an unidentified or incorrect nucleotide in the "
+              "sequence.")
