@@ -14,7 +14,7 @@ def openfasta(path):
         if (">" in line): #Controleer of regel header is
             if x>0:
                 seqs.append(seq) #Sequentie toevoegen aan array seqs
-            headers.append(line)  # Headers toevoegen aan array headers
+            headers.append(line.replace("\n", ""))  # Headers toevoegen aan array headers
             seq = "" #Sequentie leegmaken voor nieuwe seq
             x+=1
         else:
@@ -27,4 +27,9 @@ def openfasta(path):
 
 
 if __name__ == '__main__':
-    s, h = openfasta("SD.fa")
+    try:
+        s, h = openfasta("SD.fa")
+        if not s:
+            print("Warning: No sequences found")
+    except FileNotFoundError:
+        print("File not found, check filepath")
