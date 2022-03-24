@@ -87,11 +87,11 @@ while count < 6:
         orfindex1 = []
         orfindex2 = []
         orfdict = {}
-        minimum_length = 70
+        minimum_length = 6
         for i in range(len(eiwitten)):
             if eiwitten[i] == "*":
                 if not orfindex1:
-                    orfindex1.append(i)
+                    orfindex1.append(i+1)
                 else:
                     orfindex2.append(i)
                     length = orfindex2[0] - orfindex1[0]
@@ -102,7 +102,7 @@ while count < 6:
                         orfindex1 = orfindex2
                         orfindex2.clear()
                     else:
-                        orfindex2.clear()
+                        orfindex1 = orfindex2
         print(orfdict)
     except KeyError:
         print("There is an unidentified or incorrect nucleotide in the "
