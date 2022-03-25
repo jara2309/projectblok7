@@ -28,7 +28,7 @@ class BestandLezen:
 
     if __name__ == '__main__':
         try:
-            s, h = openfasta("SD.fa")
+            s, h = openfasta(input("Enter filepath: "))
             if not s:
                 print("Warning: No sequences found")
         except FileNotFoundError:
