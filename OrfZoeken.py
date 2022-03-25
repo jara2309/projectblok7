@@ -1,6 +1,8 @@
 # Ricardo van der Lande
+import BestandLezen
+
+
 class OrfZoeken:
-    sequentie = "ATCGCTGACTACGATC"
 
     def Orfmaker(sequentie, count):
         # De ifs om de string in 6 verschillende ORFS te zetten.
@@ -90,6 +92,8 @@ class OrfZoeken:
     if __name__ == '__main__':
         MinimumLength = input("wat is de minimale lengte die je wil "
                               "hebben voor de Genen?")
+        sequentie = BestandLezen.openfasta()
+        print(sequentie)
         count = 0
         while count < 6:
             count, OrfSequentie = Orfmaker(sequentie, count)
