@@ -22,31 +22,7 @@ code = {'ttt': 'F', 'tct': 'S', 'tat': 'Y', 'tgt': 'C',
         'gta': 'V', 'gca': 'A', 'gaa': 'E', 'gga': 'G',
         'gtg': 'V', 'gcg': 'A', 'gag': 'E', 'ggg': 'G'
        }
-"""
-aa3 = {"Ala": ["GCU", "GCC", "GCA", "GCG"],
-       "Arg": ["CGU", "CGC", "CGA", "CGG", "AGA", "AGG"],
-       "Asn": ["AAU", "AAC"],
-       "Asp": ["GAU", "GAC"],
-       "Cys": ["UGU", "UGC"],
-       "Gln": ["CAA", "CAG"],
-       "Glu": ["GAA", "GAG"],
-       "Gly": ["GGU", "GGC", "GGA", "GGG"],
-       "His": ["CAU", "CAC"],
-       "Ile": ["AUU", "AUC", "AUA"],
-       "Leu": ["UUA", "UUG", "CUU", "CUC", "CUA", "CUG"],
-       "Lys": ["AAA", "AAG"],
-       "Met": ["AUG"],
-       "Phe": ["UUU", "UUC"],
-       "Pro": ["CCU", "CCC", "CCA", "CCG"],
-       "Ser": ["UCU", "UCC", "UCA", "UCG", "AGU","AGC"],
-       "Thr": ["ACU", "ACC", "ACA", "ACG"],
-       "Trp": ["UGG"],
-       "Tyr": ["UAU", "UAC"],
-       "Val": ["GUU", "GUC", "GUA", "GUG"],
-       "Start": ["AUG", "CUG", "UUG", "GUG", "AUU"],
-       "Stop" : ["UAG", "UGA", "UAA"]
-      }
-"""
+
 count = 0
 while count < 6:
     try:
@@ -87,11 +63,11 @@ while count < 6:
         orfindex1 = []
         orfindex2 = []
         orfdict = {}
-        minimum_length = 70
+        minimum_length = 6
         for i in range(len(eiwitten)):
             if eiwitten[i] == "*":
                 if not orfindex1:
-                    orfindex1.append(i)
+                    orfindex1.append(i+1)
                 else:
                     orfindex2.append(i)
                     length = orfindex2[0] - orfindex1[0]
@@ -102,7 +78,7 @@ while count < 6:
                         orfindex1 = orfindex2
                         orfindex2.clear()
                     else:
-                        orfindex2.clear()
+                        orfindex1 = orfindex2
         print(orfdict)
     except KeyError:
         print("There is an unidentified or incorrect nucleotide in the "
