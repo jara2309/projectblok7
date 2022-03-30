@@ -1,5 +1,7 @@
 from Bio.Blast import NCBIWWW
 import time
+import BestandLezen
+
 
 
 class Blast:
@@ -38,20 +40,16 @@ class Blast:
 
 
     if __name__ == '__main__':
+        #Import ORF's
         duration_start = time.time()
-        testheader = [">Header1", ">Header2"]
-        testorf = ["MSFWPFSNTFNNNSQLQKFLDSIQDFSNVTVDDLLGDLDLLQELLSELHNIKGNYNNLTSFQFLQQP"
-               "QQHESASNNQNADLASLASSNNENNNNYGKDTHGAKLLELLLQPHILNGFLDYIVNSVDFFHDLSIKEHNDLERLVQSEEI"
-               "PEPQIEGNDEVEIEEAEELSQDNKNKDSEEETNEDKLRRCIQASSDVLSIDLWVILNRIIETPIVMSKLWLILSLP"
-               "NLQESSPSVSYLVHILDQLMDTNSIELLNFIRRQKNLVDTFLNKIEIPMLMDFFLRVIQTDKADSPTGILETLSLQQLISKL"
-               "IDILKPEPSQFKMNISNIPNHELFFKQTAATDFIKALVTISSNTALAVVLETNRELVSPRIIYTMINDIILYKVPMPDSNEVQTNK"
-               "HGINNCVGIIIEVIRKNNSDYDLNCGTYSSMLQNGENGTGEINSYVMFQWLKDFEQNPPGTRDPIYLGDMLAIFSEHLDQFAELMDVQSIPPMNIDSEILGFTKFKMSELIAELLHCSNMILLNSKKIRKIIHIRDYVRLQQSKRLRKALD", "MLGNHRLTLYLSKEYRDKHWYAHKQIVYQFYRNRLQFHQESIKHYIYYIVHELPLKIEDDTSSCHQHLEVLALKLLLQ"]
         try:
-            blast(testorf, testheader)
+            # blast(orf, header)
             print("Runtime in minutes: ")
             print((time.time()-duration_start)/60)
         except ModuleNotFoundError:
             print("Biopython module not found")
+        except ValueError:
+            print("File containing Nucleotides instead of aminoacids")
 
 
 
