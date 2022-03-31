@@ -113,18 +113,16 @@ class OrfZoeken:
             print("File not found, check filepath")
         orfdict = {}
         testlijst = []
-        for key in header:
-            for i in sequentie:
-                count = 0
-                while count < 6:
-                    count, OrfSequentie = Orfmaker(i, count)
-                    count += 1
-                    eiwitten = SeqConverter(OrfSequentie)
-
-                    orflist = Genefinder(eiwitten, MinimumLength,
-                                      orfdict)
-                    if orflist != []:
-                        testlijst.append(orflist)
-            orfdict.update({key: testlijst[:]})
+        for i in range(len(header)):
+            count = 0
+            while count < 6:
+                count, OrfSequentie = Orfmaker(sequentie[i], count)
+                count += 1
+                eiwitten = SeqConverter(OrfSequentie)
+                orflist = Genefinder(eiwitten, MinimumLength,
+                                  orfdict)
+                if orflist != []:
+                    testlijst.append(orflist)
+            orfdict.update({header[i]: testlijst[:]})
             testlijst.clear()
         print(orfdict)
