@@ -74,7 +74,7 @@ class Blast:
                     list_seq.append(list[i])
                     list_header.append("Header: " + str(key) + " ORF: " + str(counter))
 
-        q = input("Wil je de sequentie blasten? [Y/N]")
+        q = input("Wil je de sequenties/ORFs blasten? [Y/N]")
         q=q.upper()
         if q== "Y":
             try:
