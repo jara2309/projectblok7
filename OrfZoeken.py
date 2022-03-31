@@ -81,22 +81,26 @@ class OrfZoeken:
                 if not orfindex1:
                     orfindex1.append(i + 1)
                 else:
-                    orfindex2.append(i)
-                    length = orfindex2[0] - orfindex1[0]
-                    if length > int(MinimumLength):
-                        #orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = \
-                           #"AAlength", length, "NTlength", length * 3
-                        orflist.append(eiwitten[orfindex1[0]:orfindex2[
-                            0]])
-                        orflist.append("Amino acid length:" + str(
-                            length))
-                        orflist.append("Nucleotide length:" + str(length
-                                       * 3))
+                    orfindex2.append(i+1)
+                    if len(orfindex1) == 2:
+                        length = orfindex1[1] - orfindex1[0]
+                        if length > int(MinimumLength):
+                            orflist.append(eiwitten[orfindex1[
+                                                        0]:orfindex1[
+                                1]])
+                            orflist.append("Amino acid length:" + str(
+                                length))
+                            orflist.append("Nucleotide length:" + str(length
+                                           * 3))
+                            orfindex1.clear()
+                            orfindex1 = orfindex2
+                            orfindex2.clear()
+                        else:
+                            pass
+                    else:
                         orfindex1.clear()
                         orfindex1 = orfindex2
                         orfindex2.clear()
-                    else:
-                        orfindex1 = orfindex2
         return orflist
 
     if __name__ == '__main__':
@@ -113,18 +117,16 @@ class OrfZoeken:
             print("File not found, check filepath")
         orfdict = {}
         testlijst = []
-        for key in header:
-            for i in sequentie:
-                count = 0
-                while count < 6:
-                    count, OrfSequentie = Orfmaker(i, count)
-                    count += 1
-                    eiwitten = SeqConverter(OrfSequentie)
-
-                    orflist = Genefinder(eiwitten, MinimumLength,
-                                      orfdict)
-                    if orflist != []:
-                        testlijst.append(orflist)
-            orfdict.update({key: testlijst[:]})
+        for i in range(len(header)):
+            count = 0
+            while count < 6:
+                count, OrfSequentie = Orfmaker(sequentie[i], count)
+                count += 1
+                eiwitten = SeqConverter(OrfSequentie)
+                orflist = Genefinder(eiwitten, MinimumLength,
+                                  orfdict)
+                if orflist != []:
+                    testlijst.append(orflist)
+            orfdict.update({header[i]: testlijst[:]})
             testlijst.clear()
         print(orfdict)
