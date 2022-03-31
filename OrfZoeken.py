@@ -5,11 +5,15 @@ import BestandLezen
 class OrfZoeken:
 
     def Orfmaker(sequentie, count):
-        # De ifs om de string in 6 verschillende ORFS te zetten.
-        # Hieronder staat bij welke count welk RF erbij hoort.
-        # 0:normal, 1:normal zonder de 1ste, 2:normal zonder de
-        # 1ste 2, 3:reverse, 4:reverste zonder de 1ste, 5:reverse
-        # zonder 1ste 2.
+        """
+        De ifs om de string in 6 verschillende ORFS te zetten.
+        Hieronder staat bij welke count welk RF erbij hoort.
+        0:normal, 1:normal zonder de 1ste, 2:normal zonder de
+        1ste 2, 3:reverse, 4:reverste zonder de 1ste, 5:reverse
+        zonder 1ste 2.
+        :param sequentie, count:
+        :return: count, Orfsequentie
+        """
         if count == 0:
             OrfSequentie = sequentie
         elif count == 1:
@@ -25,10 +29,14 @@ class OrfZoeken:
         return count, OrfSequentie
 
     def SeqConverter(OrfSequentie):
-        # Maakt de sequentie lowercase voor het geval dat er een
-        # foutje met uppercase in zit.
-        # Maakt ook een lijst van de sequentie in parts van 3
-        # nucleotiden
+        """
+        Maakt de sequentie lowercase voor het geval dat er een
+        foutje met uppercase in zit.
+        Maakt ook een lijst van de sequentie in parts van 3
+        nucleotiden
+        :param: Orfsequentie
+        :return: eiwitten
+        """
         AminoDict = {'ttt': 'F', 'tct': 'S', 'tat': 'Y', 'tgt': 'C',
                      'ttc': 'F', 'tcc': 'S', 'tac': 'Y', 'tgc': 'C',
                      'tta': 'L', 'tca': 'S', 'taa': '*', 'tga': '*',
@@ -50,11 +58,11 @@ class OrfZoeken:
         lijst = []
         OrfSequentie = OrfSequentie.lower()
         for i in range(0, len(OrfSequentie), 3):
+            #Gooit n eruit aangezien die niet gebalst kan worden
             if "n" not in OrfSequentie[i:i+3]:
                 lijst.append(OrfSequentie[i:i + 3])
             else:
                 pass
-        #print(OrfSequentie)
         # Converteert de sequentie naar een eiwitsequentie.
         try:
             eiwitten = ""
@@ -66,13 +74,16 @@ class OrfZoeken:
                 "There is an unidentified or incorrect nucleotide in "
                 "the "
                 "sequence.")
-        #print(eiwitten)
         return eiwitten
 
-    def Genefinder(eiwitten, MinimumLength, orfdict):
-        # gaat door de eiwitten lijst heen en houdt de indexen van de
-        # stopcodons bij die worden dan in de orflist gezet als
-        # begin en eindpunt van de orf.
+    def Genefinder(eiwitten, MinimumLength):
+        """
+        gaat door de eiwitten lijst heen en houdt de indexen van de
+        stopcodons bij die worden dan in de orflist gezet als
+        begin en eindpunt van de orf.
+        :param: MinimumLength:
+        :return: eiwitten, MinimumLength
+        """
         orfindex1 = []
         orfindex2 = []
         orflist = []
@@ -81,7 +92,7 @@ class OrfZoeken:
                 if not orfindex1:
                     orfindex1.append(i + 1)
                 else:
-                    orfindex2.append(i+1)
+                    orfindex2.append(i)
                     if len(orfindex1) == 2:
                         length = orfindex1[1] - orfindex1[0]
                         if length > int(MinimumLength):
@@ -116,17 +127,15 @@ class OrfZoeken:
         except FileNotFoundError:
             print("File not found, check filepath")
         orfdict = {}
-        testlijst = []
+        rfgenelijst = []
         for i in range(len(header)):
             count = 0
             while count < 6:
                 count, OrfSequentie = Orfmaker(sequentie[i], count)
                 count += 1
                 eiwitten = SeqConverter(OrfSequentie)
-                orflist = Genefinder(eiwitten, MinimumLength,
-                                  orfdict)
+                orflist = Genefinder(eiwitten, MinimumLength)
                 if orflist != []:
-                    testlijst.append(orflist)
-            orfdict.update({header[i]: testlijst[:]})
-            testlijst.clear()
-        print(orfdict)
+                    rfgenelijst.append(orflist)
+            orfdict.update({header[i]: rfgenelijst[:]})
+            rfgenelijst.clear()
