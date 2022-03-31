@@ -1,6 +1,7 @@
 from Bio.Blast import NCBIWWW
-import time
+
 import BestandLezen
+import OrfZoeken
 
 
 
@@ -40,12 +41,46 @@ class Blast:
 
 
     if __name__ == '__main__':
-        #Import ORF's
-        duration_start = time.time()
+        MinimumLength = input("wat is de minimale lengte die je wil "
+                              "hebben voor de Genen?")
         try:
-            # blast(orf, header)
+            sequentie, header = BestandLezen.BestandLezen.openfasta(
+                input("Enter filepath: "))
+            if not sequentie:
+                print("Warning: No sequences found")
+        except FileNotFoundError:
+            print("File not found, check filepath")
+        orfdict = {}
+        testlijst = []
+        for key in header:
+            for i in sequentie:
+                count = 0
+                while count < 6:
+                    count, OrfSequentie = OrfZoeken.OrfZoeken.Orfmaker\
+                        (i, count)
+                    count += 1
+                    eiwitten = OrfZoeken.OrfZoeken.\
+                        SeqConverter(OrfSequentie)
+
+                    orflist = OrfZoeken.OrfZoeken.Genefinder\
+                        (eiwitten, MinimumLength)
+                    if orflist != []:
+                        testlijst.append(orflist)
+            orfdict.update({key: testlijst[:]})
+            testlijst.clear()
+        list_header  = []
+        list_seq = []
+        counter = 0
+        for key in orfdict:
+            for list in (orfdict[key]):
+                for i in range(0, len(list), 3):
+                    counter+=1
+                    list_seq.append(list[i])
+                    list_header.append("Header: " + str(key) + " ORF: " + str(counter))
+
+        try:
+            blast(list_seq, header)
             print("Runtime in minutes: ")
-            print((time.time()-duration_start)/60)
         except ModuleNotFoundError:
             print("Biopython module not found")
         except ValueError:
