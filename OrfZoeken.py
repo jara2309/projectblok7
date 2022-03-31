@@ -50,8 +50,11 @@ class OrfZoeken:
         lijst = []
         OrfSequentie = OrfSequentie.lower()
         for i in range(0, len(OrfSequentie), 3):
-            lijst.append(OrfSequentie[i:i + 3])
-
+            if "n" not in OrfSequentie[i:i+3]:
+                lijst.append(OrfSequentie[i:i + 3])
+            else:
+                pass
+        #print(OrfSequentie)
         # Converteert de sequentie naar een eiwitsequentie.
         try:
             eiwitten = ""
@@ -63,15 +66,16 @@ class OrfZoeken:
                 "There is an unidentified or incorrect nucleotide in "
                 "the "
                 "sequence.")
+        #print(eiwitten)
         return eiwitten
 
-    def Genefinder(eiwitten, MinimumLength):
+    def Genefinder(eiwitten, MinimumLength, orfdict):
         # gaat door de eiwitten lijst heen en houdt de indexen van de
         # stopcodons bij die worden dan in de orflist gezet als
         # begin en eindpunt van de orf.
         orfindex1 = []
         orfindex2 = []
-        orfdict = {}
+        orflist = []
         for i in range(len(eiwitten)):
             if eiwitten[i] == "*":
                 if not orfindex1:
@@ -79,24 +83,48 @@ class OrfZoeken:
                 else:
                     orfindex2.append(i)
                     length = orfindex2[0] - orfindex1[0]
-                    if length > MinimumLength:
-                        orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = \
-                            "AAlength", length, "NTlength", length * 3
+                    if length > int(MinimumLength):
+                        #orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = \
+                           #"AAlength", length, "NTlength", length * 3
+                        orflist.append(eiwitten[orfindex1[0]:orfindex2[
+                            0]])
+                        orflist.append("Amino acid length:" + str(
+                            length))
+                        orflist.append("Nucleotide length:" + str(length
+                                       * 3))
                         orfindex1.clear()
                         orfindex1 = orfindex2
                         orfindex2.clear()
                     else:
                         orfindex1 = orfindex2
-        return orfdict
+        return orflist
 
     if __name__ == '__main__':
         MinimumLength = input("wat is de minimale lengte die je wil "
                               "hebben voor de Genen?")
-        sequentie = BestandLezen.openfasta()
-        print(sequentie)
-        count = 0
-        while count < 6:
-            count, OrfSequentie = Orfmaker(sequentie, count)
-            count += 1
-            eiwitten = SeqConverter(OrfSequentie)
-            orfdict = Genefinder(eiwitten, MinimumLength)
+
+
+        try:
+            sequentie, header = BestandLezen.BestandLezen.openfasta(
+                input("Enter filepath: "))
+            if not sequentie:
+                print("Warning: No sequences found")
+        except FileNotFoundError:
+            print("File not found, check filepath")
+        orfdict = {}
+        testlijst = []
+        for key in header:
+            for i in sequentie:
+                count = 0
+                while count < 6:
+                    count, OrfSequentie = Orfmaker(i, count)
+                    count += 1
+                    eiwitten = SeqConverter(OrfSequentie)
+
+                    orflist = Genefinder(eiwitten, MinimumLength,
+                                      orfdict)
+                    if orflist != []:
+                        testlijst.append(orflist)
+            orfdict.update({key: testlijst[:]})
+            testlijst.clear()
+        print(orfdict)
