@@ -81,11 +81,9 @@ class OrfZoeken:
                 if not orfindex1:
                     orfindex1.append(i + 1)
                 else:
-                    orfindex2.append(i)
+                    orfindex2.append(i+1)
                     length = orfindex2[0] - orfindex1[0]
                     if length > int(MinimumLength):
-                        #orfdict[eiwitten[orfindex1[0]:orfindex2[0]]] = \
-                           #"AAlength", length, "NTlength", length * 3
                         orflist.append(eiwitten[orfindex1[0]:orfindex2[
                             0]])
                         orflist.append("Amino acid length:" + str(
@@ -96,7 +94,12 @@ class OrfZoeken:
                         orfindex1 = orfindex2
                         orfindex2.clear()
                     else:
+                        orfindex1.clear()
                         orfindex1 = orfindex2
+                        orfindex2.clear()
+
+
+        print(orflist)
         return orflist
 
     if __name__ == '__main__':
@@ -125,4 +128,4 @@ class OrfZoeken:
                     testlijst.append(orflist)
             orfdict.update({header[i]: testlijst[:]})
             testlijst.clear()
-        print(orfdict)
+        #print(orfdict)
