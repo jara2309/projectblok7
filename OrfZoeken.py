@@ -92,7 +92,7 @@ class OrfZoeken:
                 if not orfindex1:
                     orfindex1.append(i + 1)
                 else:
-                    orfindex2.append(i+1)
+                    orfindex2.append(i)
                     if len(orfindex1) == 2:
                         length = orfindex1[1] - orfindex1[0]
                         if length > int(MinimumLength):
