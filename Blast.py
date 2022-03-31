@@ -14,7 +14,8 @@ class Blast:
         for i in new_orf_list:
             seq = new_orf_list[count]
             print("Blasting sequence:\n" + i)
-            result_handle = NCBIWWW.qblast("blastp", "nr", seq, word_size=3,
+            result_handle = NCBIWWW.qblast("blastp", "nr", seq,
+                                           word_size=3,
                                            matrix_name="BLOSUM62",
                                            alignments=10,
                                            expect=0.0001,
@@ -72,7 +73,8 @@ class Blast:
                 for i in range(0, len(list), 3):
                     counter+=1
                     list_seq.append(list[i])
-                    list_header.append("Header: " + str(key) + " ORF: " + str(counter))
+                    list_header.append("Header: " + str(key) + " ORF: "
+                                       + str(counter))
 
         q = input("Wil je de sequenties/ORFs blasten? [Y/N]")
         q=q.upper()
@@ -83,7 +85,8 @@ class Blast:
             except ModuleNotFoundError:
                 print("Biopython module not found")
             except ValueError:
-                print("File containing Nucleotides instead of aminoacids")
+                print("File containing Nucleotides instead of "
+                      "aminoacids")
         else:
             for index in range(0, len(list_seq)):
                 print(list_header[index], list_seq[index])
