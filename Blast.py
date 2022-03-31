@@ -1,8 +1,6 @@
 from Bio.Blast import NCBIWWW
-
 import BestandLezen
 import OrfZoeken
-
 
 
 class Blast:
@@ -24,7 +22,6 @@ class Blast:
             filename = header_list[count] + ".XML"
             count += 1
             Blast.writefile(result_handle, filename)
-            time.sleep(6)
 
     def writefile(result, filename):
         """ Maakt een bestand aan en schrijft meegegeven
@@ -38,7 +35,6 @@ class Blast:
             file.write(result.read())
         file.close()
         result.close()
-
 
     if __name__ == '__main__':
         MinimumLength = input("wat is de minimale lengte die je wil "
@@ -77,7 +73,6 @@ class Blast:
                     counter+=1
                     list_seq.append(list[i])
                     list_header.append("Header: " + str(key) + " ORF: " + str(counter))
-
         try:
             blast(list_seq, header)
             print("Runtime in minutes: ")
