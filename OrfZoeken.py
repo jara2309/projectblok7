@@ -99,7 +99,7 @@ class OrfZoeken:
                         orfindex2.clear()
 
 
-        print(orflist)
+        #print(orflist)
         return orflist
 
     if __name__ == '__main__':
