@@ -73,13 +73,20 @@ class Blast:
                     counter+=1
                     list_seq.append(list[i])
                     list_header.append("Header: " + str(key) + " ORF: " + str(counter))
-        try:
-            blast(list_seq, header)
-            print("Runtime in minutes: ")
-        except ModuleNotFoundError:
-            print("Biopython module not found")
-        except ValueError:
-            print("File containing Nucleotides instead of aminoacids")
+
+        q = input("Wil je de sequentie blasten? [Y/N]")
+        q=q.upper()
+        if q== "Y":
+            try:
+                blast(list_seq, header)
+                print("Runtime in minutes: ")
+            except ModuleNotFoundError:
+                print("Biopython module not found")
+            except ValueError:
+                print("File containing Nucleotides instead of aminoacids")
+        else:
+            for index in range(0, len(list_seq)):
+                print(list_header[index], list_seq[index])
 
 
 
